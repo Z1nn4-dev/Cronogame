@@ -1,0 +1,25 @@
+.DS_Store
+Thumbs.db
+node_modules/
+.env
+.vscode/
+*.log
+npm-debug.log*
+dist/
+coverage/
+# OS files
+desktop.ini
+
+# Build outputs
+build/
+
+# Temporary files
+*.tmp
+*.bak
+
+# Mac files
+._*
+
+# Python bytecode (if any)
+__pycache__/
+*.py[cod]
