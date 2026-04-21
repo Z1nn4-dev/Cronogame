@@ -313,3 +313,31 @@
 .light-theme .logout-btn:hover {
     background-color: rgba(211, 47, 47, 0.1) !important;
 }
+
+/* Ajustes específicos para formularios con apariencia oscura dentro de páginas claras */
+.light-theme .light-theme-compatible {
+    background-color: #ffffff !important;
+    color: #222222 !important;
+    border-color: #e6e6e6 !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05) !important;
+}
+.light-theme .light-theme-compatible label,
+.light-theme .light-theme-compatible p {
+    color: #444444 !important;
+}
+.light-theme .light-theme-compatible input,
+.light-theme .light-theme-compatible textarea,
+.light-theme .light-theme-compatible select {
+    background-color: #ffffff !important;
+    color: #111111 !important;
+    border-color: #cccccc !important;
+}
+.light-theme .light-theme-compatible input::placeholder {
+    color: #888888 !important;
+}
+.light-theme .light-theme-compatible button {
+    background-color: #111111 !important;
+    color: #ffffff !important;
+    border-color: #111111 !important;
+}
+

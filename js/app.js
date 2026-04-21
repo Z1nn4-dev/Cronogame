@@ -1,0 +1,20 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("registroForm");
+    if (!form) return;
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const nombre = document.getElementById("nombre").value;
+        const correo = document.getElementById("correo").value;
+        const direccion = document.getElementById("direccion").value;
+        const password = document.getElementById("password").value;
+
+        if (nombre === "" || correo === "" || direccion === "" || password === "") {
+            document.getElementById("mensaje").textContent = "Todos los campos son obligatorios.";
+            return;
+        }
+
+        document.getElementById("mensaje").textContent = "Formulario enviado correctamente.";
+    });
+});
