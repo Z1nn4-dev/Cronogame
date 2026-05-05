@@ -272,6 +272,14 @@ async function consultarAPI() {
                 galleryImages = fotosLimitadas;
                 currentGalleryIndex = 0;
 
+                // Clear any existing interval
+                if (window.galleryInterval) clearInterval(window.galleryInterval);
+
+                // Auto change every 3 seconds
+                window.galleryInterval = setInterval(() => {
+                    cambiarImagen(1);
+                }, 3000);
+
                 imgHtml = `
                     <div class="gallery-container">
                         <img id="gallery-main-img" src="${galleryImages[0].image}" alt="Captura de ${nombre}" class="game-cover" 
