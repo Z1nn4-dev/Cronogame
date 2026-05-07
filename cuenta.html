@@ -1,5 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
+<!-- =============================== -->
+<!-- INICIO DEL HEAD (METADATOS Y ESTILOS) -->
+<!-- =============================== -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,9 +19,12 @@
 </head>
 <body>
 
+<!-- =============================== -->
+<!-- INICIO DEL HEADER (BARRA SUPERIOR Y LOGO) -->
+<!-- =============================== -->
     <header style="position:relative;">
         <div class="top-controls" style="position: absolute; top: 10px; right: 20px; display: flex; gap: 15px; align-items: center; justify-content:flex-end; z-index: 100; width:100%;">
-            <button id="theme-toggle" style="position:static;">☀️ Modo Claro</button>
+            <button id="theme-toggle" style="position:static;">â˜€ï¸ Modo Claro</button>
             <div id="header-auth-container"></div>
         </div>
         <h1 style="display:flex; justify-content:center; align-items:center; margin-top:50px;">
@@ -30,8 +36,11 @@
         <p>Autenticación de Usuario</p>
     </header>
 
+<!-- =============================== -->
+<!-- INICIO DEL MAIN (CONTENIDO PRINCIPAL) -->
+<!-- =============================== -->
     <main class="page-content" style="max-width: 500px; margin: 0 auto; text-align:center;">
-        <h2 style="margin-bottom:10px;">¡Bienvenido a Cronogame!</h2>
+        <h2 style="margin-bottom:10px;">Â¡Bienvenido a Cronogame!</h2>
         <p style="margin-bottom:30px;">Inicia sesión para crear listas y llevar un registro de tus juegos completados y pendientes.</p>
         
         <form onsubmit="return loginFormSubmit(event)" style="background-color:#171717; padding:30px; border-radius:12px; border:1px solid #2a2a2a; text-align:left;" class="light-theme-compatible" id="login-box">
@@ -40,11 +49,11 @@
             
             <p style="font-size:0.85rem; color:#888; line-height:1.4; margin-bottom:20px;">* Al ser una herramienta puramente Frontend, no usamos contraseñas en este momento. La plataforma simplemente guardará las listas en este navegador particular asociándolas a este apodo local de forma segura.</p>
             
-            <button type="submit" style="width:100%; box-sizing:border-box; font-size:1.1rem; padding:15px;">💾 Proceder y crear sesión Local</button>
+            <button type="submit" style="width:100%; box-sizing:border-box; font-size:1.1rem; padding:15px;">ðŸ’¾ Proceder y crear sesión Local</button>
         </form>
 
         <div style="margin-top: 40px; text-align: center;">
-            <a href="index.html" style="color: inherit; text-decoration: underline; font-weight: 500;">⬅️ Volver a buscar juegos</a>
+            <a href="index.html" style="color: inherit; text-decoration: underline; font-weight: 500;">â¬…ï¸ Volver a buscar juegos</a>
         </div>
     </main>
 
@@ -55,6 +64,9 @@
         }
     </style>
 
+<!-- =============================== -->
+<!-- INICIO DEL FOOTER (PIE DE PÁGINA) -->
+<!-- =============================== -->
     <footer>
         <div class="footer-info">
             <p>&copy; 2026 Cronogame. Todos los derechos reservados.</p>
@@ -67,5 +79,8 @@
     </footer>
 
     <script src="js/theme.js"></script>
+<script src="js/auth.js"></script>
 </body>
 </html>
+
+

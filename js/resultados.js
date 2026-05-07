@@ -1,3 +1,7 @@
+// =============================== 
+// ARCHIVO DE SCRIPT JAVASCRIPT: RESULTADOS.JS 
+// =============================== 
+
 const apiKey = '447bfa68c64d4608a0d0cfdcd210596d';
 
 document.addEventListener('DOMContentLoaded', () => {
