@@ -1,9 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <!-- =============================== -->
 <!-- INICIO DEL HEAD (METADATOS Y ESTILOS) -->
 <!-- =============================== -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,13 +19,23 @@
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/background.css">
 </head>
 
 <body>
 
-<!-- =============================== -->
-<!-- INICIO DEL HEADER (BARRA SUPERIOR Y LOGO) -->
-<!-- =============================== -->
+    <!-- FONDO ANIMADO GIF MOSAICO -->
+    <div id="bg-gif-wrapper">
+        <div id="bg-gif-mover">
+            <!-- Los bloques del mosaico se generan dinámicamente -->
+        </div>
+    </div>
+
+
+
+    <!-- =============================== -->
+    <!-- INICIO DEL HEADER (BARRA SUPERIOR Y LOGO) -->
+    <!-- =============================== -->
     <header style="position:relative;">
         <div class="top-controls"
             style="position: absolute; top: 10px; right: 20px; display: flex; gap: 15px; align-items: center; justify-content:flex-end; z-index: 100; width:100%;">
@@ -41,9 +52,9 @@
         <p>Porque cada hora de juego cuenta.</p>
     </header>
 
-<!-- =============================== -->
-<!-- INICIO DEL MAIN (CONTENIDO PRINCIPAL) -->
-<!-- =============================== -->
+    <!-- =============================== -->
+    <!-- INICIO DEL MAIN (CONTENIDO PRINCIPAL) -->
+    <!-- =============================== -->
     <main>
         <h2>Busca un juego y descubre su duración</h2>
 
@@ -60,9 +71,9 @@
         </div>
     </main>
 
-<!-- =============================== -->
-<!-- INICIO DEL FOOTER (PIE DE PÁGINA) -->
-<!-- =============================== -->
+    <!-- =============================== -->
+    <!-- INICIO DEL FOOTER (PIE DE PÁGINA) -->
+    <!-- =============================== -->
     <footer>
         <div class="footer-info">
             <p>&copy; 2026 Cronogame. Todos los derechos reservados.</p>
@@ -78,8 +89,8 @@
         <script src="js/theme.js"></script>
         <script src="js/listas.js"></script>
         <script src="js/main.js"></script>
-<script src="js/auth.js"></script>
+        <script src="js/auth.js"></script>
+        <script src="js/background.js"></script>
 </body>
 
 </html>
-

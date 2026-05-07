@@ -33,8 +33,10 @@
 
 .light-theme main.page-content,
 .light-theme main {
-    background-color: #ffffff !important;
-    border-color: #dddddd !important;
+    background-color: rgba(255, 255, 255, 0.01) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-color: rgba(221, 221, 221, 0.5) !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
 }
 
@@ -47,9 +49,11 @@
 }
 
 .light-theme input {
-    background-color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.01) !important;
+    backdrop-filter: blur(5px) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
     color: #111111 !important;
-    border-color: #cccccc !important;
+    border-color: rgba(204, 204, 204, 0.5) !important;
 }
 
 .light-theme input::placeholder {
