@@ -2,38 +2,65 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
     // AUTO-DETECCIÓN DE GIFS (CONVENCIÓN DE NOMBRES)
     // ==========================================
-    // Javascript no puede "escanear" tu disco duro por seguridad.
-    // Para que sea 100% automático, he diseñado un sistema de búsqueda en cadena.
-    // Solo debes nombrar tus GIFs con números: 1.gif, 2.gif, 3.gif, 4.gif...
-    // El código probará cargar el número 1, luego el 2, etc. Cuando no encuentre el siguiente,
-    // sabrá exactamente cuántos hay disponibles y generará el fondo. ¡Magia automática!
+    // Sistema optimizado: busca en paralelo usando requests HEAD para 
+    // no descargar los GIFs enteros solo para comprobar si existen.
 
     const folderPath = 'Images/portrate/gif/';
     const gifsDisponibles = [];
-    let currentIndex = 1;
 
-    function findGifs() {
-        const img = new Image();
-        const testPath = `${folderPath}${currentIndex}.gif`;
+    async function findGifs() {
+        let index = 1;
+        let keepSearching = true;
 
-        img.onload = function () {
-            // El GIF existe, lo agregamos a la lista
-            gifsDisponibles.push(`${currentIndex}.gif`);
-            currentIndex++;
-            findGifs(); // Recursividad: intentar buscar el siguiente número
-        };
-
-        img.onerror = function () {
-            // La imagen dio error (no existe). Llegamos al límite de GIFs.
-            if (gifsDisponibles.length > 0) {
-                console.log(`¡Se encontraron ${gifsDisponibles.length} GIFs automáticamente! Generando fondo...`);
-                buildMosaic();
-            } else {
-                console.warn("No se encontraron archivos nombrados 1.gif, 2.gif, etc. en la carpeta " + folderPath);
+        const checkGif = async (i) => {
+            const url = `${folderPath}${i}.gif`;
+            try {
+                // HEAD request es ultra rápido porque no descarga el cuerpo de la imagen
+                const response = await fetch(url, { method: 'HEAD', cache: 'force-cache' });
+                return response.ok ? `${i}.gif` : null;
+            } catch (e) {
+                // Fallback si fetch falla (ej. ejecutando localmente con file://)
+                return new Promise(resolve => {
+                    const img = new Image();
+                    img.onload = () => resolve(`${i}.gif`);
+                    img.onerror = () => resolve(null);
+                    img.src = url;
+                });
             }
         };
 
-        img.src = testPath; // Inicia la carga
+        // Comprobamos en lotes de 5 para ser rápidos y a la vez respetar el orden secuencial
+        while (keepSearching) {
+            const batchPromises = [];
+            for (let i = 0; i < 5; i++) {
+                batchPromises.push(checkGif(index + i));
+            }
+            const batchResults = await Promise.all(batchPromises);
+            
+            for (let i = 0; i < 5; i++) {
+                if (batchResults[i]) {
+                    gifsDisponibles.push(batchResults[i]);
+                } else {
+                    // Al encontrar el primer fallo, asumimos que no hay más (están nombrados 1, 2, 3...)
+                    keepSearching = false; 
+                    break;
+                }
+            }
+            index += 5;
+            
+            // Límite de seguridad para evitar loops infinitos
+            if (index > 200) break;
+        }
+
+        if (gifsDisponibles.length > 0) {
+            console.log(`¡Se encontraron ${gifsDisponibles.length} GIFs rápidamente! Generando fondo...`);
+            // Retrasar la construcción del mosaico ligeramente para que la UI principal se pinte primero
+            requestAnimationFrame(() => {
+                setTimeout(buildMosaic, 100);
+            });
+        } else {
+            console.warn("No se encontraron archivos nombrados 1.gif, 2.gif, etc. en la carpeta " + folderPath);
+        }
     }
 
     // Disparamos la búsqueda al cargar la página
@@ -46,13 +73,20 @@ document.addEventListener("DOMContentLoaded", () => {
         // Normalización de la resolución: formato vertical 10:16
         const tileWidth = 200;
         const tileHeight = 320;
+        
+        // RESTAURACIÓN DE DIMENSIONES: 
+        // Debido a que el wrapper está rotado -45deg y mide 150vmax, 
+        // necesitamos un área muy extensa para no dejar "hoyos" en los extremos
+        // al momento de animar.
         const cols = 16;
         const rows = 10;
         const blockWidth = tileWidth * cols; // 3200px
         const blockHeight = tileHeight * rows; // 3200px
 
-        // Para lograr un movimiento continuo a la izquierda (-X) y deslizamientos iguales,
-        // necesitamos duplicar las columnas horizontalmente (3 bloques)
+        // Usar Fragmento para minimizar repaints del DOM
+        const fragment = document.createDocumentFragment();
+
+        // 3 bloques horizontales para asegurar cobertura total durante la traslación
         for (let blockX = 0; blockX < 3; blockX++) {
             for (let col = 0; col < cols; col++) {
                 const colDiv = document.createElement('div');
@@ -60,35 +94,32 @@ document.addEventListener("DOMContentLoaded", () => {
                 colDiv.style.width = tileWidth + 'px';
                 colDiv.style.position = 'absolute';
                 colDiv.style.left = (blockX * blockWidth + col * tileWidth) + 'px';
+                colDiv.style.willChange = 'transform'; // Sugerencia de hardware acceleration
 
-                // Alternamos animaciones: moveUp en 32s y moveDown 25% más lento (80s en lugar de 60s)
+                // Alternamos animaciones
                 const isEven = (col % 2 === 0);
-                colDiv.style.animation = isEven ? 'moveUp 32s linear infinite' : 'moveDown 80s linear infinite';
+                colDiv.style.animation = isEven ? 'moveUp 45s linear infinite' : 'moveDown 65s linear infinite';
                 
-                // Las columnas que bajan deben empezar más arriba para no mostrar huecos
+                // Las columnas que bajan deben empezar más arriba para no mostrar huecos al inicio
                 if (!isEven) {
                     colDiv.style.top = `-${blockHeight}px`;
                 } else {
                     colDiv.style.top = '0px';
                 }
 
-                // Generamos secuencia asegurando que NO haya duplicados adyacentes (ni arriba ni a la izquierda)
                 const colTiles = [];
                 for (let r = 0; r < rows; r++) {
                     let availableGifs = [...gifsDisponibles];
                     
-                    // Evitar duplicado vertical (arriba)
                     if (r > 0) {
                         availableGifs = availableGifs.filter(g => g !== colTiles[r-1]);
                     }
-                    
-                    // Si tenemos muy pocos GIFs de base, evitamos que la validación colapse
                     if (availableGifs.length === 0) availableGifs = gifsDisponibles;
 
                     colTiles.push(availableGifs[Math.floor(Math.random() * availableGifs.length)]);
                 }
 
-                // Triplicamos para el loop vertical
+                // 3 copias verticales para cubrir completamente el alto durante el loop
                 for (let copy = 0; copy < 3; copy++) {
                     colTiles.forEach((gif) => {
                         const tile = document.createElement('div');
@@ -98,22 +129,20 @@ document.addEventListener("DOMContentLoaded", () => {
                         tile.style.height = tileHeight + 'px';
                         tile.style.flexShrink = '0';
                         
-                        // MAGIA POR CÓDIGO: Multiplicamos la variedad visual artificialmente
-                        // (Efecto espejo removido para preservar la legibilidad del texto en los GIFs)
-                        
-                        // Ligeros cambios de tonalidad de color y brillo al azar
-                        const hue = Math.floor(Math.random() * 40) - 20; // Rota colores levemente (-20 a +20 deg)
-                        const brightness = 0.8 + (Math.random() * 0.4); // Brillo entre 0.8 y 1.2
-                        
+                        const hue = Math.floor(Math.random() * 40) - 20; 
+                        const brightness = 0.8 + (Math.random() * 0.4); 
                         tile.style.filter = `hue-rotate(${hue}deg) brightness(${brightness})`;
 
                         colDiv.appendChild(tile);
                     });
                 }
 
-                mover.appendChild(colDiv);
+                fragment.appendChild(colDiv);
             }
         }
+
+        // Añadimos todo el DOM generado de una sola vez
+        mover.appendChild(fragment);
 
         const style = document.createElement('style');
         style.innerHTML = `
@@ -122,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 100% { transform: translateX(-${blockWidth}px); }
             }
             #bg-gif-mover {
-                animation: moveLeftBase 60s linear infinite;
+                animation: moveLeftBase 80s linear infinite;
             }
             @keyframes moveUp {
                 0% { transform: translateY(0); }
@@ -134,5 +163,25 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         `;
         document.head.appendChild(style);
+
+        // Precarga silenciosa: Le decimos al navegador que empiece a descargar los cuerpos 
+        // reales de los GIFs. Una vez todos descargados, mostramos el mosaico entero sin huecos.
+        const preloadPromises = gifsDisponibles.map(gif => {
+            return new Promise(resolve => {
+                const img = new Image();
+                // Usamos onload y onerror para contar siempre como resuelto y no atascarse
+                img.onload = resolve;
+                img.onerror = resolve; 
+                img.src = `${folderPath}${gif}`;
+            });
+        });
+
+        // Cuando la red termina de bajar todos los GIFs
+        Promise.all(preloadPromises).then(() => {
+            const wrapper = document.getElementById('bg-gif-wrapper');
+            if (wrapper) {
+                wrapper.classList.add('loaded'); // Activa el fade-in en el CSS
+            }
+        });
     }
 });

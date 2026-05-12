@@ -1,36 +1,52 @@
 // =============================== 
-// ARCHIVO DE SCRIPT JAVASCRIPT: APP.JS 
+// ARCHIVO DE SCRIPT JAVASCRIPT: APP.JS
+// Lógica del formulario de inscripción (registro.html)
+// Usa validarDatos() y actualizarDOM() de validacion.js
+// Usa registerUser() de user_data.js
 // =============================== 
 
 document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("registroForm");
+    var form = document.getElementById("registroForm");
     if (!form) return;
 
     form.addEventListener("submit", function (e) {
         e.preventDefault();
 
-        const nombre = document.getElementById("nombre").value;
-        const correo = document.getElementById("correo").value;
-        const direccion = document.getElementById("direccion").value;
-        const password = document.getElementById("password").value;
+        // Recopilar datos del formulario en un objeto
+        var formData = {
+            nombre: document.getElementById("nombre").value,
+            correo: document.getElementById("correo").value,
+            direccion: document.getElementById("direccion").value,
+            password: document.getElementById("password").value
+        };
 
-        if (nombre === "" || correo === "" || direccion === "" || password === "") {
-            document.getElementById("mensaje").textContent = "Todos los campos son obligatorios.";
-            document.getElementById("mensaje").style.color = "red";
+        // Definir campos obligatorios para la inscripción
+        var camposRequeridos = ['nombre', 'correo', 'direccion', 'password'];
+
+        // Usar la función modular validarDatos() de validacion.js
+        var resultado = validarDatos(formData, camposRequeridos);
+
+        if (!resultado.valido) {
+            // Mostrar el primer error usando actualizarDOM()
+            actualizarDOM("mensaje", resultado.errores[0], "error");
             return;
         }
 
-        const result = registerUser(nombre, correo, direccion, password);
-        
-        if (result.success) {
-            document.getElementById("mensaje").textContent = result.message + " Redirigiendo...";
-            document.getElementById("mensaje").style.color = "green";
-            setTimeout(() => {
+        // Intentar registrar al usuario usando user_data.js
+        var resultadoRegistro = registerUser(
+            formData.nombre,
+            formData.correo,
+            formData.direccion,
+            formData.password
+        );
+
+        if (resultadoRegistro.success) {
+            actualizarDOM("mensaje", resultadoRegistro.message + " Redirigiendo...", "exito");
+            setTimeout(function () {
                 window.location.href = "acceder.html";
             }, 1500);
         } else {
-            document.getElementById("mensaje").textContent = result.message;
-            document.getElementById("mensaje").style.color = "red";
+            actualizarDOM("mensaje", resultadoRegistro.message, "error");
         }
     });
 });

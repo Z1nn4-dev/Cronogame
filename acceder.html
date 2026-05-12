@@ -37,35 +37,53 @@
             </a>
         </h1>
         <p>Autenticación de Usuario</p>
+
+        <!-- =============================== -->
+        <!-- NAV - NAVEGACIÓN PRINCIPAL -->
+        <!-- =============================== -->
+        <nav class="nav-principal" aria-label="Navegación principal">
+            <a href="index.html" class="nav-link">Inicio</a>
+            <a href="registro.html" class="nav-link">Registro</a>
+            <a href="acceder.html" class="nav-link activo">Acceder</a>
+            <a href="contacto.html" class="nav-link">Contacto</a>
+        </nav>
     </header>
 
     <!-- =============================== -->
     <!-- INICIO DEL MAIN (CONTENIDO PRINCIPAL) -->
     <!-- =============================== -->
     <main class="page-content" style="max-width: 500px; margin: 0 auto; text-align:center;">
-        <h2 style="margin-bottom:10px;">¡Bienvenido de nuevo!</h2>
-        <p style="margin-bottom:30px;">Inicia sesión para acceder a tus listas y progreso de juegos.</p>
+        <!-- =============================== -->
+        <!-- SECTION: FORMULARIO DE LOGIN -->
+        <!-- =============================== -->
+        <section id="login-section">
+            <h2 style="margin-bottom:10px;">¡Bienvenido de nuevo!</h2>
+            <p style="margin-bottom:30px;">Inicia sesión para acceder a tus listas y progreso de juegos.</p>
 
-        <form onsubmit="return loginFormSubmit(event)"
-            style="background-color:#171717; padding:30px; border-radius:12px; border:1px solid #2a2a2a; text-align:left;"
-            class="light-theme-compatible" id="login-box">
-            <label for="auth-username" style="display:block; margin-bottom:8px; font-weight:500;">Nombre de Usuario o
-                Email</label>
-            <input type="text" id="auth-username" placeholder="Escribe tu usuario o email" required
-                style="width:100%; box-sizing:border-box; margin-bottom:20px;">
+            <form onsubmit="return loginFormSubmit(event)"
+                style="background-color:#171717; padding:30px; border-radius:12px; border:1px solid #2a2a2a; text-align:left;"
+                class="light-theme-compatible" id="login-box">
 
-            <label for="auth-password" style="display:block; margin-bottom:8px; font-weight:500;">Contraseña</label>
-            <input type="password" id="auth-password" placeholder="Tu contraseña" required
-                style="width:100%; box-sizing:border-box; margin-bottom:20px;">
+                <label for="auth-username" style="display:block; margin-bottom:8px; font-weight:500;">Nombre de Usuario o
+                    Email</label>
+                <input type="text" id="auth-username" placeholder="Escribe tu usuario o email" required
+                    style="width:100%; box-sizing:border-box; margin-bottom:20px;">
 
-            <button type="submit"
-                style="width:100%; box-sizing:border-box; font-size:1.1rem; padding:15px;">Acceder</button>
-        </form>
+                <label for="auth-password" style="display:block; margin-bottom:8px; font-weight:500;">Contraseña</label>
+                <input type="password" id="auth-password" placeholder="Tu contraseña" required
+                    style="width:100%; box-sizing:border-box; margin-bottom:20px;">
 
-        <div style="margin-top: 40px; text-align: center;">
-            <a href="index.html" style="color: inherit; text-decoration: underline; font-weight: 500;">⬅️ Volver a
-                buscar juegos</a>
-        </div>
+                <button type="submit"
+                    style="width:100%; box-sizing:border-box; font-size:1.1rem; padding:15px;">Acceder</button>
+
+                <p id="login-mensaje" style="margin-top:12px;"></p>
+            </form>
+
+            <div style="margin-top: 40px; text-align: center;">
+                <a href="index.html" style="color: inherit; text-decoration: underline; font-weight: 500;">⬅️ Volver a
+                    buscar juegos</a>
+            </div>
+        </section>
     </main>
 
     <style>
@@ -91,6 +109,7 @@
 
     <script src="js/theme.js"></script>
     <script src="js/user_data.js"></script>
+    <script src="js/validacion.js"></script>
     <script src="js/auth.js"></script>
 </body>
 

@@ -466,3 +466,325 @@ button:active {
 .light-theme .offer-new-price {
     color: #111111;
 }
+
+/* =============================== */
+/* NAV - NAVEGACIÓN PRINCIPAL      */
+/* =============================== */
+.nav-principal {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 15px;
+    padding: 10px 0;
+    flex-wrap: wrap;
+}
+
+.nav-link {
+    color: #aaaaaa;
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.nav-link:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.nav-link.activo {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.light-theme .nav-link {
+    color: #666666;
+}
+
+.light-theme .nav-link:hover {
+    color: #111111;
+    background-color: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.light-theme .nav-link.activo {
+    color: #111111;
+    background-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+/* =============================== */
+/* CARRUSEL DE IMÁGENES             */
+/* =============================== */
+#carrusel-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #333333;
+}
+
+#carrusel-section h2 {
+    margin-bottom: 20px;
+}
+
+/* Tabs de categorías */
+.carrusel-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.carrusel-tab {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background-color: transparent;
+    color: #aaaaaa;
+    border: 1px solid #333333;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.carrusel-tab:hover {
+    color: #ffffff;
+    border-color: #555555;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.carrusel-tab.activo {
+    color: #ffffff;
+    border-color: #00ffff;
+    background-color: rgba(0, 255, 255, 0.08);
+}
+
+.light-theme .carrusel-tab {
+    color: #666666;
+    border-color: #cccccc;
+}
+
+.light-theme .carrusel-tab:hover {
+    color: #111111;
+    border-color: #999999;
+}
+
+.light-theme .carrusel-tab.activo {
+    color: #111111;
+    border-color: #0066cc;
+    background-color: rgba(0, 102, 204, 0.08);
+}
+
+/* Contenedor del carrusel */
+.carrusel-contenedor {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #111111;
+    border: 1px solid #2a2a2a;
+    min-height: 300px;
+}
+
+/* Slide principal */
+.carrusel-slide {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 7;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carrusel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.4s ease;
+}
+
+/* Overlay con info del juego */
+.carrusel-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 30px 25px 20px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+    color: #ffffff;
+    pointer-events: none;
+}
+
+.carrusel-overlay h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.carrusel-overlay p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #cccccc;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* Botones anterior/siguiente */
+.carrusel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    padding: 12px 16px !important;
+    font-size: 0.85rem;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(4px);
+}
+
+.carrusel-btn:hover {
+    background: rgba(0, 0, 0, 0.85) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.carrusel-prev {
+    left: 12px;
+}
+
+.carrusel-next {
+    right: 12px;
+}
+
+/* Loading state */
+.carrusel-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: #888888;
+}
+
+.carrusel-loading .loader {
+    width: 36px;
+    height: 36px;
+    border: 3px solid #333;
+    border-top-color: #00ffff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Indicadores de posición (dots) */
+.carrusel-indicadores {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 15px 0;
+}
+
+.carrusel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #333333;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    padding: 0;
+}
+
+.carrusel-dot:hover {
+    background-color: #666666;
+}
+
+.carrusel-dot.activo {
+    background-color: #00ffff;
+    transform: scale(1.2);
+}
+
+.light-theme .carrusel-dot {
+    background-color: #cccccc;
+}
+
+.light-theme .carrusel-dot.activo {
+    background-color: #0066cc;
+}
+
+/* Responsive carrusel */
+@media (max-width: 768px) {
+    .carrusel-slide {
+        aspect-ratio: 16 / 9;
+    }
+
+    .carrusel-btn {
+        padding: 8px 10px !important;
+        font-size: 0.75rem;
+    }
+
+    .carrusel-overlay h3 {
+        font-size: 1.1rem;
+    }
+
+    .carrusel-tabs {
+        gap: 6px;
+    }
+
+    .carrusel-tab {
+        padding: 8px 14px;
+        font-size: 0.78rem;
+    }
+}
+
+/* =============================== */
+/* TEXTAREA (FORMULARIO CONTACTO)  */
+/* =============================== */
+textarea {
+    font-family: inherit;
+    font-size: 1rem;
+    color: #ffffff;
+    background-color: rgba(26, 26, 26, 0.01);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(51, 51, 51, 0.5);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+textarea::placeholder {
+    color: #666666;
+}
+
+textarea:hover,
+textarea:focus {
+    border-color: #555555;
+    background-color: rgba(34, 34, 34, 0.01);
+    outline: none;
+}
+
+.light-theme textarea {
+    color: #111111;
+    background-color: #fafafa;
+    border-color: #cccccc;
+}
+
+.light-theme textarea:hover,
+.light-theme textarea:focus {
+    border-color: #999999;
+    background-color: #ffffff;
+}
